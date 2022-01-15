@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GenreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,6 +26,16 @@ class Genre
      */
     private $nom;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Livre::class, mappedBy="genres")
+     */
+    private $livres;
+
+    public function __construct()
+    {
+        $this->livres = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -43,5 +55,32 @@ class Genre
 
     public function __toString() {
         return $this->nom;
+    }
+
+    /**
+     * @return Collection|Livre[]
+     */
+    public function getLivres(): Collection
+    {
+        return $this->livres;
+    }
+
+    public function addLivre(Livre $livre): self
+    {
+        if (!$this->livres->contains($livre)) {
+            $this->livres[] = $livre;
+            $livre->addGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivre(Livre $livre): self
+    {
+        if ($this->livres->removeElement($livre)) {
+            $livre->removeGenre($this);
+        }
+
+        return $this;
     }
 }
