@@ -1,32 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Auteur index{% endblock %}
+{% block title %}Auteurs{% endblock %}
 
 {% block body %}
-    <h1>Auteur index</h1>
-
+    <div class="nav justify-content-between align-items-center mb-5">
+        <h1 class="fw-bold">Auteurs :</h1>
+        {% if is_granted('ROLE_ADMIN') %}
+		    <a class="btn btn-outline-success fw-bold" href="{{ path('auteur_new') }}">
+                <i class="bi bi-plus-circle pe-2"></i> Ajouter Un nouveau Auteur
+            </a>
+	    {% endif %}
+    </div>
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom_prenom</th>
-                <th>Sexe</th>
-                <th>Date_de_naissance</th>
-                <th>Nationalite</th>
-                <th>actions</th>
+            <tr class="row justify-content-evenly">
+                <th class="col-2">ID</th>
+                <th class="col-2">Nom et Prénom</th>
+                <th class="col-2">Sexe</th>
+                <th class="col-2">Date de naissance</th>
+                <th class="col-2">Nationalité</th>
+                <th class="col-2 text-center"><i class="bi bi-box fw-bold"></i></th>
             </tr>
         </thead>
         <tbody>
         {% for auteur in auteurs %}
-            <tr>
-                <td>{{ auteur.id }}</td>
-                <td>{{ auteur.nomPrenom }}</td>
-                <td>{{ auteur.sexe }}</td>
-                <td>{{ auteur.dateDeNaissance ? auteur.dateDeNaissance|date('Y-m-d') : '' }}</td>
-                <td>{{ auteur.nationalite }}</td>
-                <td>
-                    <a href="{{ path('auteur_show', {'id': auteur.id}) }}">show</a>
-                    <a href="{{ path('auteur_edit', {'id': auteur.id}) }}">edit</a>
+            <tr class="row">
+                <td class="col-2">{{ auteur.id }}</td>
+                <td class="col-2">{{ auteur.nomPrenom }}</td>
+                <td class="col-2">{{ auteur.sexe }}</td>
+                <td class="col-2">{{ auteur.dateDeNaissance ? auteur.dateDeNaissance|date('Y-m-d') : '' }}</td>
+                <td class="col-2">{{ auteur.nationalite }}</td>
+                <td class="col-2 text-center">
+                     <div class="row">           
+                        <div class="col">
+                            <a class="p-2 text-dark" href="{{ path('auteur_show', {'id': auteur.id}) }}"><i class="bi bi-eye-fill"></i></a>
+                        </div>
+                        <div class="col">
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <div class="col">    
+                                <a class="p-2 text-success" href="{{ path('auteur_edit', {'id': auteur.id}) }}"><i class="bi bi-pencil-square"></i></a>
+                            </div>
+                            {% endif %}
+                        </div>       
+                    </div>
                 </td>
             </tr>
         {% else %}
@@ -36,6 +52,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('auteur_new') }}">Create new</a>
 {% endblock %}

@@ -63,7 +63,6 @@ class AppFixtures extends Fixture {
         $admin->setEmail('admin@bookstore.com');
         $admin->setPassword($this->passwordEncoder->hashPassword($admin, 'testtest'));
         $admin->setRoles(["ROLE_ADMIN"]);
-        
         $manager->persist($admin);
         
         $manager->flush();

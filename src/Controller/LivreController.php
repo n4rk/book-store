@@ -30,7 +30,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="livre_new", methods={"GET", "POST"})
+     * @Route("/livre/new/", name="livre_new", methods={"GET", "POST"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -53,7 +53,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="livre_show", methods={"GET"})
+     * @Route("/livre/{id}/", name="livre_show", methods={"GET"})
      */
     public function show(Livre $livre): Response
     {
@@ -63,7 +63,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="livre_edit", methods={"GET", "POST"})
+     * @Route("/livre/{id}/edit/", name="livre_edit", methods={"GET", "POST"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
@@ -84,7 +84,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="livre_delete", methods={"POST"})
+     * @Route("/livre/{id}/", name="livre_delete", methods={"POST"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
@@ -98,7 +98,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/liste-livres-par-titre={keyword}", name="livre_liste", methods={"GET"})
+     * @Route("/livre/liste-livres-par-titre/{keyword}/", name="livre_liste", methods={"GET"})
      */
     public function listByTitle(String $keyword, LivreRepository $livreRepository): Response {
         return $this->render('livre/find.html.twig', [
@@ -107,7 +107,7 @@ class LivreController extends AbstractController
     }
 
     /**
-     * @Route("/livre/liste-livres-date-entre-{dateMin}-et-{dateMax}", name="liste_entre_deux_dates", methods={"GET"})
+     * @Route("/livre/liste-livres-date-entre/{dateMin}/{dateMax}/", name="liste_entre_deux_dates", methods={"GET"})
      */
     public function listeLivresEntreDeuxDates(String $dateMin, String $dateMax, LivreRepository $livreRepository): Response {
         
@@ -122,13 +122,13 @@ class LivreController extends AbstractController
      * @Route("/livre/liste-par-date/{date}/", name="liste_par_date", methods={"GET"})
      */
     public function listByDate(LivreRepository $livreRepository, $date): Response {
-        return $this->render('livre/chercher.html.twig', [
+        return $this->render('livre/find.html.twig', [
             'livres' => $livreRepository->findByDate($date)
         ]);
     }
     
     /**
-     * @Route("/livre/liste-livres-par-note={note}", name="liste_par_note", methods={"GET"})
+     * @Route("/livre/liste-livres-par-note/{note}/", name="liste_par_note", methods={"GET"})
      */
     public function listByNote(int $note, LivreRepository $livreRepository): Response {
         return $this->render('livre/find.html.twig', [
@@ -149,7 +149,7 @@ class LivreController extends AbstractController
      * @Route("/livre/liste-par-genre/{genre}/", name="liste_par_genre", methods={"GET"})
      */
     public function listByGenre(LivreRepository $livreRepository, $genre): Response {
-        return $this->render('livre/chercher.html.twig', [
+        return $this->render('livre/find.html.twig', [
             'livres' => $livreRepository->findByGenre($genre)
         ]);
     }

@@ -55,11 +55,10 @@ class LivreRepository extends ServiceEntityRepository
     public function findByNote($note)
     {
         return $this->createQueryBuilder('livre')
-            ->andWhere('livre.date_de_parution = :val')
+            ->andWhere('livre.note = :val')
             ->setParameter('val', $note)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findByDate($date_de_parution)
